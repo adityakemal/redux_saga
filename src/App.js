@@ -1,25 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+import { getUser } from './redux/duck/user.reducer';
+import { useDispatch, useSelector} from 'react-redux'
+
+import { decreament, increament } from './redux/duck/counter.reducer';
 
 function App() {
+
+  const dispatch = useDispatch()
+  const {userList} = useSelector(state => state.user)
+  const {count} = useSelector(state => state.counter)
+  useEffect(() => {
+    dispatch(getUser())
+  }, [])
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <pre>
+        {
+          JSON.stringify(userList, null,2)
+        }
+      </pre>
+      <h1>{count}</h1>
+      <button onClick={()=> dispatch(increament())}>tambah</button>
+      <button onClick={()=> dispatch(decreament())}>kurang</button>
     </div>
   );
 }
+
 
 export default App;
